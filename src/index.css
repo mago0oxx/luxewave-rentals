@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+
   /* inter-regular - latin */
   @font-face {
     font-family: 'Inter';
@@ -31,6 +32,10 @@
     font-display: optional;
     src: url('/fonts/inter-bold-webfont.woff2') format('woff2'),
       url('/fonts/inter-bold-webfont.woff') format('woff');
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   /* Write your own custom base styles here */

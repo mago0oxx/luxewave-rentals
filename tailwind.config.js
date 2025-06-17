@@ -6,6 +6,12 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+
+      borderWidth: {
+        '3': '3px',
+      },
+
+
       fontFamily: {
         primary: ['Inter', ...fontFamily.sans],
       },
@@ -19,7 +25,11 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      animation: {
+        'pulse-slow': 'pulse 2s infinite',
+      },
+    },
   },
   plugins: [require('@tailwindcss/forms')],
 };
