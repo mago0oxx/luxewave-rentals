@@ -1,0 +1,69 @@
+{
+  "hero": {
+    "title": "¡Alquila tu Yate y tu Jet Ski en Miami Beach!",
+    "subtitle": "Vive la emoción en el agua con LuxeWave Rentals 🌊🏖️"
+  },
+  "button": {
+    "bookNow": "RESERVA YA"
+  },
+  "navbar": {
+    "pricing": "Tarifas",
+    "gallery": "Galería",
+    "contact": "Contacto"
+  },
+  "pricing": {
+    "title": "Tarifas de alquiler de Jet Ski",
+    "headers": {
+      "model": "Modelo",
+      "time": "Tiempo",
+      "price": "Precio",
+      "people": "Personas"
+    },
+    "vxPrice": "$120",
+    "vxPeople": "Hasta 2",
+    "fxPrice": "$140",
+    "fxPeople": "Hasta 3"
+  },
+  "gallery": {
+    "title": "Nuestra galería de Jet Skis",
+    "imageAlt": "Imagen de jetski {{number}}"
+  },
+  "footer": {
+    "description": "Alquiler de Jet Skis en Miami Beach",
+    "linksTitle": "Enlaces",
+    "pricing": "Tarifas",
+    "gallery": "Galería",
+    "contact": "Contacto",
+    "contactTitle": "Contacto",
+    "followUs": "Síguenos",
+    "rights": "Todos los derechos reservados."
+  },
+  "reservation": {
+    "title": "Reserva tu Aventura Acuática",
+    "description": "Completa el formulario y nos pondremos en contacto contigo lo antes posible.",
+    "fullName": "Nombre completo",
+    "namePlaceholder": "Tu nombre",
+    "date": "Fecha de reserva",
+    "message": "Mensaje",
+    "messagePlaceholder": "¿Tienes alguna preferencia?",
+    "submit": "Enviar Reserva"
+  },
+  "yachtReservation": {
+    "title": "Reserva tu Yate de Lujo",
+    "formTitle": "Información de contacto",
+    "addons": "Servicios adicionales",
+    "extraJetski": "Jetski adicional (+$200)",
+    "limoService": "Servicio de limosina (+$150)",
+    "total": "Total a pagar:",
+    "duration": "Duración",
+    "submit": "Enviar reserva"
+  },
+  "form": {
+    "fullName": "nombre completo",
+    "email": "email",
+    "phone": "telefono",
+    "date": "Fecha de reserva",
+    "message": "alguna preferencia? ",
+    "submit": "Enviar reserva"
+  }
+}

@@ -1,10 +1,12 @@
 import React from 'react';
 import {
-  FaInstagram, FaFacebookF, FaWhatsapp, FaTiktok,
-  FaYoutube
+  FaInstagram, FaFacebookF, FaWhatsapp, FaTiktok, FaYoutube
 } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <>
       <footer className="bg-gray-900 text-white py-10 mt-16 relative">
@@ -12,27 +14,27 @@ export default function Footer() {
 
           <div>
             <h3 className="text-yellow-400 font-bold text-lg mb-2">LuxeWave</h3>
-            <p className="text-gray-400">Jet Ski Rentals en Miami Beach</p>
+            <p className="text-gray-400">{t('footer.description')}</p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-2 text-white">Enlaces</h4>
+            <h4 className="font-semibold mb-2 text-white">{t('footer.linksTitle')}</h4>
             <ul className="space-y-1">
-              <li><a href="#pricing" className="hover:text-yellow-400">Tarifas</a></li>
-              <li><a href="#gallery" className="hover:text-yellow-400">Galería</a></li>
-              <li><a href="#contact" className="hover:text-yellow-400">Contacto</a></li>
+              <li><a href="#pricing" className="hover:text-yellow-400">{t('footer.pricing')}</a></li>
+              <li><a href="#gallery" className="hover:text-yellow-400">{t('footer.gallery')}</a></li>
+              <li><a href="#contact" className="hover:text-yellow-400">{t('footer.contact')}</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-2 text-white">Contacto</h4>
+            <h4 className="font-semibold mb-2 text-white">{t('footer.contactTitle')}</h4>
             <p>📞 +1 (786) 510-8358</p>
             <p>📍 Miami Beach, FL</p>
             <p>📧 luxewaverentals@gmail.com</p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-2 text-white">Síguenos</h4>
+            <h4 className="font-semibold mb-2 text-white">{t('footer.followUs')}</h4>
             <div className="flex space-x-4 text-xl text-yellow-400">
               <a href="https://www.instagram.com/luxewave_rentals?igsh=dnAwODljNTMwZnJ6&utm_source=qr" target="_blank"><FaInstagram /></a>
               <a href="https://facebook.com" target="_blank"><FaFacebookF /></a>
@@ -43,7 +45,7 @@ export default function Footer() {
         </div>
 
         <div className="text-center text-gray-500 text-xs mt-10">
-          © {new Date().getFullYear()} LuxeWave Rentals. Todos los derechos reservados.
+          © {new Date().getFullYear()} LuxeWave Rentals. {t('footer.rights')}
         </div>
       </footer>
 

@@ -1,0 +1,69 @@
+{
+  "hero": {
+    "title": "Rent your Yach and jet Ski in Miami Beach!",
+    "subtitle": "Feel the thrill on the water with LuxeWave Rentals 🌊🏖️"
+  },
+  "button": {
+    "bookNow": "BOOK NOW"
+  },
+  "navbar": {
+    "pricing": "Pricing",
+    "gallery": "Gallery",
+    "contact": "Contact"
+  },
+  "pricing": {
+    "title": "Jet Ski Rental Pricing",
+    "headers": {
+      "model": "Model",
+      "time": "Time",
+      "price": "Price",
+      "people": "People"
+    },
+    "vxPrice": "$120",
+    "vxPeople": "Up to 2",
+    "fxPrice": "$140",
+    "fxPeople": "Up to 3"
+  },
+  "gallery": {
+    "title": "Our Jet Ski Gallery",
+    "imageAlt": "Jet ski image {{number}}"
+  },
+  "footer": {
+    "description": "Jet Ski Rentals in Miami Beach",
+    "linksTitle": "Links",
+    "pricing": "Pricing",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "contactTitle": "Contact",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved."
+  },
+  "reservation": {
+    "title": "Book Your Water Adventure",
+    "description": "Fill out the form and we will contact you as soon as possible.",
+    "fullName": "Full Name",
+    "namePlaceholder": "Your name",
+    "date": "Reservation Date",
+    "message": "Message",
+    "messagePlaceholder": "Any preferences?",
+    "submit": "Send Reservation"
+  },
+  "yachtReservation": {
+    "title": "Book Your Luxury Yacht",
+    "formTitle": "Contact Information",
+    "addons": "Add-ons",
+    "extraJetski": "Extra Jetski (+$200)",
+    "limoService": "Limo Service (+$150)",
+    "total": "Total to pay:",
+    "duration": "Duration",
+    "submit": "Submit Booking"
+  },
+  "form": {
+    "fullName": "Full Name",
+    "email": "email",
+    "phone": "phone",
+    "date": "Date",
+    "message": "Any preferences?",
+    "submit": "Submit Reservation"
+  }
+}
