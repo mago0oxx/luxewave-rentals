@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { signInWithEmailAndPassword, signInWithRedirect } from 'firebase/auth';
+import React, { useState, useEffect } from 'react';
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  onAuthStateChanged,
+} from 'firebase/auth';
 import { auth, provider } from '../firebase/firebase';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -8,6 +12,15 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate('/dashboard');
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,10 +36,13 @@ export default function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      await signInWithRedirect(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      if (result.user) {
+        navigate('/dashboard');
+      }
     } catch (err) {
-      console.error("Error al iniciar sesión con Google:", err.message);
-      setError("Error al iniciar sesión con Google");
+      console.error('Error al iniciar sesión con Google:', err.message);
+      setError('Error al iniciar sesión con Google');
     }
   };
 
