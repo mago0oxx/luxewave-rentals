@@ -53,6 +53,7 @@ export default function ReserveYacht() {
   }, [selectedYacht]);
 
   const isDateBooked = (selectedDate) => {
+    if (!selectedDate) return false;
     return bookedDates.some(
       (booked) =>
         booked.getFullYear() === selectedDate.getFullYear() &&
@@ -194,7 +195,7 @@ export default function ReserveYacht() {
                 className="w-full border p-2 rounded-md"
                 excludeDates={bookedDates}
               />
-              {isDateBooked(date) && (
+              {date && isDateBooked(date) && (
                 <p className="text-red-600 mt-1 text-sm">Esa fecha ya está reservada para este yate.</p>
               )}
             </div>
