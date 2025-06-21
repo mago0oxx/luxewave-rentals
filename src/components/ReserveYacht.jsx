@@ -88,6 +88,29 @@ export default function ReserveYacht() {
         yachtName: selectedYacht.name,
         createdAt: Timestamp.now(),
       });
+      await emailjs
+        .send(
+          'service_jyq18ck', // mismo Service ID
+          'template_0j6syc', // nuevo Template ID que creaste
+          {
+            nombre: user.displayName || 'Usuario',
+            email: user.email,
+            fecha: date.toLocaleDateString(),
+            horas: hours,
+            jetski: addJetski ? 'Sí' : 'No',
+            limo: addLimo ? 'Sí' : 'No',
+            total: `$${total}`,
+            yate: selectedYacht.name,
+            mensaje: message || 'Sin mensaje',
+          },
+          '9i4-IRiwb_vzgR2Ef' // tu Public Key
+        )
+        .then((result) => {
+          console.log('📧 Confirmación enviada al cliente');
+        })
+        .catch((error) => {
+          console.error('❌ Error al enviar confirmación al cliente:', error);
+        });
 
       await emailjs
         .send(
