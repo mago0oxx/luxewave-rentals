@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase/firebase';
-
 import ProtectedRoute from './components/ProtectedRoute';
 import { GuestRoute } from './components/GuestRoute';
-
+import SuccessPage from './pages/SuccessPage';
+import CancelPage from './pages/CancelPage';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Pricing from './components/Pricing';
@@ -61,7 +60,8 @@ export default function App() {
             </GuestRoute>
           }
         />
-
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/cancel" element={<CancelPage />} />
         <Route
           path="/register"
           element={
