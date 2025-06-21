@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { db } from '../firebase/firebase';
@@ -8,7 +7,6 @@ import { auth } from '../firebase/firebase';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import emailjs from 'emailjs-com';
-
 
 export default function ReserveYacht() {
   const { t } = useTranslation();
@@ -90,26 +88,36 @@ export default function ReserveYacht() {
         yachtName: selectedYacht.name,
         createdAt: Timestamp.now(),
       });
-      await emailjs.send(
-        'service_jyq18ck',
-        'template_v83jt64',
-        {
-          nombre: user.displayName || 'Usuario',
-          email: user.email,
-          fecha: date.toLocaleDateString(),
-          horas: hours,
-          jetski: addJetski ? 'Sí' : 'No',
-          limo: addLimo ? 'Sí' : 'No',
-          total: `$${total}`,
-          yate: selectedYacht.name,
-        },
-        '9i4-IRiwb_vzgR2Ef'
-      );
+
+      await emailjs
+        .send(
+          'service_jyq18ck',
+          'template_v83jt64',
+          {
+            nombre: user.displayName || 'Usuario',
+            email: user.email,
+            fecha: date.toLocaleDateString(),
+            horas: hours,
+            jetski: addJetski ? 'Sí' : 'No',
+            limo: addLimo ? 'Sí' : 'No',
+            total: `$${total}`,
+            yate: selectedYacht.name,
+            mensaje: message || 'Sin mensaje',
+          },
+          '9i4-IRiwb_vzgR2Ef'
+        )
+        .then((result) => {
+          console.log('✅ Email enviado con éxito:', result.text);
+        })
+        .catch((error) => {
+          console.error('❌ Error al enviar email con EmailJS:', error);
+          setError('La reserva se guardó, pero el correo no se pudo enviar.');
+        });
+
       setSubmitted(true);
       setConfirming(false);
     } catch (error) {
-      console.error('Error al guardar la reserva:', error);
-      setError('Hubo un problema al guardar o enviar la reserva. Inténtalo más tarde.');
+      console.error('❌ Error al guardar la reserva:', error);
       setError('Hubo un problema al guardar la reserva. Inténtalo más tarde.');
     } finally {
       setLoading(false);
@@ -123,6 +131,7 @@ export default function ReserveYacht() {
     }
     setConfirming(true);
   };
+
 
   return (
     <section className="bg-white py-20 px-4 min-h-screen">

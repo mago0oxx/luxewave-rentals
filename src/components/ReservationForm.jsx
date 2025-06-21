@@ -1,57 +1,60 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useState } from 'react';
+import { auth } from '../firebase/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function ReservationForm() {
-  const { t } = useTranslation();
+  const [email, setEmail] = useState('');
+  const [date, setDate] = useState('');
+  const [hours, setHours] = useState(1);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setEmail(user.email);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Aquí podrías guardar la reserva en Firestore
+    alert(`Reserva hecha por ${email} para el día ${date}, por ${hours} hora(s).`);
+  };
 
   return (
-    <section id="contact" className="bg-white py-20 px-4">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-          {t('reservation.title')}
-        </h2>
-        <p className="text-gray-600 mb-10">
-          {t('reservation.description')}
-        </p>
-
-        <form className="space-y-6 text-left">
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              {t('reservation.fullName')}
-            </label>
-            <input
-              type="text"
-              placeholder={t('reservation.namePlaceholder')}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              {t('reservation.date')}
-            </label>
-            <input
-              type="date"
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              {t('reservation.message')}
-            </label>
-            <textarea
-              placeholder={t('reservation.messagePlaceholder')}
-              rows="4"
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            ></textarea>
-          </div>
-
+    <section className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h2 className="text-xl font-bold mb-4">Formulario de Reserva</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            value={email}
+            disabled
+            className="w-full px-4 py-2 border rounded bg-gray-100"
+          />
+          <input
+            type="date"
+            required
+            className="w-full px-4 py-2 border rounded"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+          <select
+            value={hours}
+            onChange={(e) => setHours(Number(e.target.value))}
+            className="w-full px-4 py-2 border rounded"
+          >
+            <option value={1}>1 hora</option>
+            <option value={2}>2 horas</option>
+            <option value={3}>3 horas</option>
+          </select>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
           >
-            {t('reservation.submit')}
+            Reservar
           </button>
         </form>
       </div>
