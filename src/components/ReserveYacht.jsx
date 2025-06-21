@@ -1,4 +1,4 @@
-// src/pages/ReserveYacht.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { db } from '../firebase/firebase';
@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase/firebase';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import emailjs from 'emailjs-com';
 
 
 export default function ReserveYacht() {
@@ -89,10 +90,26 @@ export default function ReserveYacht() {
         yachtName: selectedYacht.name,
         createdAt: Timestamp.now(),
       });
+      await emailjs.send(
+        'service_jyq18ck',
+        'template_v83jt64',
+        {
+          nombre: user.displayName || 'Usuario',
+          email: user.email,
+          fecha: date.toLocaleDateString(),
+          horas: hours,
+          jetski: addJetski ? 'Sí' : 'No',
+          limo: addLimo ? 'Sí' : 'No',
+          total: `$${total}`,
+          yate: selectedYacht.name,
+        },
+        '9i4-IRiwb_vzgR2Ef'
+      );
       setSubmitted(true);
       setConfirming(false);
     } catch (error) {
       console.error('Error al guardar la reserva:', error);
+      setError('Hubo un problema al guardar o enviar la reserva. Inténtalo más tarde.');
       setError('Hubo un problema al guardar la reserva. Inténtalo más tarde.');
     } finally {
       setLoading(false);
