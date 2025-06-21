@@ -11,16 +11,20 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/dashboard');
+        // No redirige inmediatamente, sino que asume que ProtectedRoute se encarga
+        setLoading(false);
+      } else {
+        setLoading(false);
       }
     });
     return () => unsubscribe();
-  }, [navigate]);
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -38,6 +42,7 @@ export default function Login() {
     try {
       const result = await signInWithPopup(auth, provider);
       if (result.user) {
+        // Firebase actualizó el estado, ahora navega
         navigate('/dashboard');
       }
     } catch (err) {
@@ -45,6 +50,16 @@ export default function Login() {
       setError('Error al iniciar sesión con Google');
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-xl font-semibold text-gray-700 animate-pulse">
+          Cargando...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section

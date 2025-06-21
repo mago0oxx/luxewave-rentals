@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Profile from './Profile';
 import Reservations from './Reservations';
@@ -6,6 +6,10 @@ import Settings from './Settings';
 
 export default function DashboardLayout() {
   const [activeTab, setActiveTab] = useState('profile');
+
+  useEffect(() => {
+    console.log('📦 DashboardLayout montado correctamente');
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -21,9 +25,22 @@ export default function DashboardLayout() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
+    <div
+      className="min-h-screen flex flex-col sm:flex-row bg-cover bg-center"
+      style={{
+        backgroundImage:
+          'linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.85)), url("/images/dashboard-bg.jpg")',
+      }}
+    >
+      {/* Sidebar */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="flex-1 p-6">{renderContent()}</main>
+
+      {/* Main Content */}
+      <main className="flex-1 flex justify-center m-10 items-start px-4 sm:px-8 pt-6 pb-10">
+        <div className="w-full max-w-lg bg-white shadow-xl rounded-2xl p-6 sm:p-10 mt-6 sm:mt-12">
+          {renderContent()}
+        </div>
+      </main>
     </div>
   );
 }

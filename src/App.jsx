@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase/firebase';
+
 import ProtectedRoute from './components/ProtectedRoute';
+import { GuestRoute } from './components/GuestRoute';
+
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Pricing from './components/Pricing';
@@ -12,20 +18,30 @@ import Footer from './components/Footer';
 import ReserveYacht from './components/ReserveYacht';
 import Login from './components/Login';
 import Register from './components/Register';
-import { GuestRoute } from './components/GuestRoute';
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 
 export default function App() {
+  const navigate = useNavigate();
+
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
-  }, []);
+
+    // ✅ Redirección si ya hay un usuario autenticado
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      const currentPath = window.location.pathname;
+      if (user && (currentPath === '/login' || currentPath === '/register')) {
+        navigate('/dashboard');
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
 
   return (
     <div className="w-full font-sans">
       <Navbar />
 
       <Routes>
-        {/* Página principal (Landing) */}
         <Route
           path="/"
           element={
@@ -37,14 +53,15 @@ export default function App() {
           }
         />
 
-        {/* Otras páginas */}
-        <Route path="/login"
+        <Route
+          path="/login"
           element={
             <GuestRoute>
               <Login />
             </GuestRoute>
           }
         />
+
         <Route
           path="/register"
           element={
@@ -53,6 +70,7 @@ export default function App() {
             </GuestRoute>
           }
         />
+
         <Route path="/reserve" element={<ReservationForm />} />
 
         <Route

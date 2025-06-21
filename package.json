@@ -8,12 +8,17 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.3.2",
+    "@vitejs/plugin-react": "^4.5.2",
     "aos": "^2.3.4",
+    "date-fns": "^4.1.0",
     "firebase": "^11.9.1",
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.2.0",
+    "lucide-react": "^0.519.0",
     "react": "^17.0.0",
+    "react-datepicker": "^8.4.0",
     "react-dom": "^17.0.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-helmet": "^6.1.0",
     "react-i18next": "^15.5.3",
     "react-icons": "^5.5.0",
@@ -25,6 +30,7 @@
     "autoprefixer": "^10.2.5",
     "postcss": "^8.2.13",
     "tailwindcss": "^2.1.2",
-    "vite": "^2.2.3"
+    "vite": "^6.3.5",
+    "vite-plugin-css-injected-by-js": "^3.5.2"
   }
 }

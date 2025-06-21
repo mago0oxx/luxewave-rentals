@@ -19,7 +19,7 @@ export default function Hero() {
     if (!user) {
       setShowPopup(true);
     } else {
-      navigate('/reserve');
+      navigate('/reserve-yacht');
     }
   };
 
