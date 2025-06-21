@@ -7,6 +7,7 @@ import { auth } from '../firebase/firebase';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import emailjs from 'emailjs-com';
+import Spinner from './Spinner';
 
 export default function ReserveYacht() {
   const { t } = useTranslation();
@@ -24,10 +25,12 @@ export default function ReserveYacht() {
   const [selectedYacht, setSelectedYacht] = useState(null);
   const [bookedDates, setBookedDates] = useState([]);
   const [confirming, setConfirming] = useState(false);
+  const [paymentOption, setPaymentOption] = useState('50');
 
   const basePrices = { 4: 1000, 6: 1400, 8: 1700 };
   const extras = { jetski: 180, limo: 240 };
   const total = basePrices[hours] + (addJetski ? extras.jetski : 0) + (addLimo ? extras.limo : 0);
+  const amountToPay = paymentOption === '50' ? total / 2 : total;
 
   useEffect(() => {
     const fetchYachts = async () => {
@@ -70,7 +73,7 @@ export default function ReserveYacht() {
     try {
       if (isDateBooked(date)) {
         setError('Esa fecha ya está reservada para este yate. Por favor elige otra.');
-        setLoading(false);
+        setLoading(true);
         return;
       }
 
@@ -156,6 +159,49 @@ export default function ReserveYacht() {
   };
 
 
+
+  const handlePayment = async () => {
+    setLoading(true);
+    setError("");
+
+    const amount = parseFloat(amountToPay);
+    if (isNaN(amount) || amount <= 0) {
+      setError("El monto a pagar no es válido.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch('https://us-central1-luxewave-rentals.cloudfunctions.net/createStripeCheckout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: Math.round(amount * 100), // aseguramos que va en centavos
+          name: selectedYacht?.name || 'Yate',
+          total: total,
+          email: user?.email || '',
+          date: date.toISOString().split('T')[0],
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No se recibió la URL de Stripe:", data);
+        setError("Error al iniciar el pago. Intenta de nuevo.");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error('Error creando sesión de Stripe:', err);
+      setError('Error al iniciar el pago. Intenta de nuevo.');
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="bg-white py-20 px-4 min-h-screen">
       <div className="max-w-4xl mx-auto">
@@ -167,7 +213,11 @@ export default function ReserveYacht() {
           <img src="/images/yacht.jpg" alt="Yacht" className="w-full h-100 object-cover" />
         </div>
 
-        {submitted ? (
+        {loading ? (
+          <div className="flex justify-center items-center min-h-[200px]">
+            <Spinner />
+          </div>
+        ) : submitted ? (
           <div className="bg-green-100 text-green-800 p-4 rounded-md text-center">
             ¡Gracias por tu reserva! Nos pondremos en contacto contigo pronto.
           </div>
@@ -183,11 +233,36 @@ export default function ReserveYacht() {
               <li><strong>Jetski:</strong> {addJetski ? 'Sí' : 'No'}</li>
               <li><strong>Limusina:</strong> {addLimo ? 'Sí' : 'No'}</li>
               <li><strong>Total:</strong> ${total}</li>
+              <li><strong>Pagarás ahora:</strong> ${amountToPay} ({paymentOption}%)</li>
               {message && <li><strong>Mensaje:</strong> {message}</li>}
             </ul>
             <div className="mt-6 flex gap-4">
-              <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded">Confirmar</button>
-              <button onClick={() => setConfirming(false)} className="bg-gray-400 text-white px-4 py-2 rounded">Cancelar</button>
+              <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded">
+                Confirmar sin pagar
+              </button>
+              <button onClick={() => setConfirming(false)} className="bg-gray-400 text-white px-4 py-2 rounded">
+                Cancelar
+              </button>
+            </div>
+
+            <div className="mt-8">
+              <label className="block mb-2 font-semibold">¿Deseas pagar ahora?</label>
+              <select
+                value={paymentOption}
+                onChange={(e) => setPaymentOption(e.target.value)}
+                className="w-full border p-2 rounded"
+              >
+                <option value="50">Pagar 50% (${total / 2})</option>
+                <option value="100">Pagar 100% (${total})</option>
+              </select>
+              <p className="mt-2 text-sm text-gray-600">Monto a pagar: <strong>${amountToPay}</strong></p>
+              <button
+                onClick={handlePayment}
+                className="mt-4 w-full bg-green-600 text-white py-2 rounded"
+              >
+                Pagar con Stripe
+              </button>
+              {error && <p className="mt-2 text-red-600 font-semibold">{error}</p>}
             </div>
           </div>
         ) : (
@@ -263,6 +338,7 @@ export default function ReserveYacht() {
             {error && <p className="mt-2 text-red-600 font-semibold">{error}</p>}
 
             <div className="mt-8 text-lg font-bold">Total: ${total}</div>
+            <div className="text-gray-700 text-sm">Monto a pagar ahora: ${amountToPay}</div>
 
             <div className="mt-6">
               <button
