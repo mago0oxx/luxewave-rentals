@@ -50,7 +50,7 @@ exports.createStripeCheckout = functions.https.onRequest((req, res) => {
               product_data: {
                 name: `Reserva: ${name}`,
               },
-              unit_amount: Math.round(amount * 100),
+              unit_amount: amount,
             },
             quantity: 1,
           },

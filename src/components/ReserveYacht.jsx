@@ -178,7 +178,7 @@ export default function ReserveYacht() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: Math.round(amount), // aseguramos que va en centavos
+          amount: Math.round(amount * 100), // aseguramos que va en centavos
           name: selectedYacht?.name || 'Yate',
           total: total,
           email: user?.email || '',

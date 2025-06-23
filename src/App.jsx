@@ -18,6 +18,10 @@ import ReserveYacht from './components/ReserveYacht';
 import Login from './components/Login';
 import Register from './components/Register';
 import DashboardLayout from './components/Dashboard/DashboardLayout';
+import ReserveJetski from './components/reserve-jetski';
+
+
+
 
 export default function App() {
   const navigate = useNavigate();
@@ -81,7 +85,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route path="/reserve-jetski" element={<ReserveJetski />} />
         <Route path="/reserve-yacht" element={<ReserveYacht />} />
       </Routes>
 
