@@ -32,7 +32,7 @@ export default function ReserveJetski() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: Math.round(amountToPay),
+          amount: amountToPay,
           name: `Jetski x${jetskiCount} - ${hours}h`,
           total,
           email: user?.email || '',
