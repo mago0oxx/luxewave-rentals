@@ -18,6 +18,7 @@
     "dotenv": "^16.5.0",
     "firebase-admin": "^12.6.0",
     "firebase-functions": "^6.0.1",
+    "react-responsive-carousel": "^3.2.23",
     "stripe": "^18.2.1"
   },
   "devDependencies": {
