@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase/firebase';
-import emailjs from 'emailjs-com';
+import { auth, db } from '../firebase/firebase';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
@@ -26,13 +26,13 @@ export default function ReserveJetski() {
     setError('');
 
     try {
-      const res = await fetch('https://us-central1-luxewave-rentals.cloudfunctions.net/createStripeCheckout', {
+      const res = await fetch('/create-stripe-checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: amountToPay,
+          amount: Math.round(amountToPay * 100), // Stripe necesita el valor en centavos
           name: `Jetski x${jetskiCount} - ${hours}h`,
           total,
           email: user?.email || '',
@@ -42,6 +42,20 @@ export default function ReserveJetski() {
 
       const data = await res.json();
       if (data.url) {
+        // Guardar en Firestore antes de redirigir
+        await addDoc(collection(db, 'reservasJetski'), {
+          fullName: user?.displayName || '',
+          email: user?.email || '',
+          jetskiCount,
+          hours,
+          message,
+          total,
+          paymentOption,
+          amountToPay,
+          date: date.toISOString().split('T')[0],
+          createdAt: Timestamp.now(),
+        });
+
         window.location.href = data.url;
       } else {
         setError('Error al iniciar el pago.');

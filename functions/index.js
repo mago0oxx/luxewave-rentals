@@ -36,6 +36,8 @@ setGlobalOptions({ maxInstances: 10 });
 
 exports.createStripeCheckout = functions.https.onRequest((req, res) => {
   cors(req, res, async () => {
+
+    console.log("Body recibido en createStripeCheckout:", req.body);
     try {
       const { amount, email, name, date } = req.body;
 
@@ -55,12 +57,18 @@ exports.createStripeCheckout = functions.https.onRequest((req, res) => {
             quantity: 1,
           },
         ],
+
         success_url: 'https://luxewave-rentals.vercel.app/success',
         cancel_url: 'https://luxewave-rentals.vercel.app/cancel',
       });
 
       res.status(200).json({ url: session.url });
+      res.set('Access-Control-Allow-Origin', '*'); // o el origen de tu frontend
+      res.set('Access-Control-Allow-Methods', 'POST');
+
+      console.log("Body recibido en createStripeCheckout:", req.body);
     } catch (error) {
+
       console.error('Error en createStripeCheckout:', error);
       res.status(500).json({ error: error.message });
     }

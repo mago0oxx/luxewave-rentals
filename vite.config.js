@@ -7,4 +7,17 @@ export default defineConfig({
     react(),
     cssInjectedByJsPlugin(),
   ],
+  // vite.config.js
+
+  // ...
+  server: {
+    proxy: {
+      '/create-stripe-checkout': {
+        target: 'https://createstripecheckout-<tu-id>.a.run.app',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/create-stripe-checkout/, ''),
+      },
+    },
+  },
 });
+
