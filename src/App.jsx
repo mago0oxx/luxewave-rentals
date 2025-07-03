@@ -19,7 +19,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import ReserveJetski from './components/reserve-jetski';
-
+import ReserveLimo from './components/ReserveLimo';
 
 
 
@@ -87,6 +87,7 @@ export default function App() {
         />
         <Route path="/reserve-jetski" element={<ReserveJetski />} />
         <Route path="/reserve-yacht" element={<ReserveYacht />} />
+        <Route path="/reserve-limo" element={<ReserveLimo />} />
       </Routes>
 
       <Footer />

@@ -22,6 +22,20 @@ export default function Pricing() {
             </thead>
             <tbody>
               <tr className="border-b">
+                <td className="py-3 px-4">Sea Ray yate 40 ft</td>
+                <td className="py-3 px-4">1hr</td>
+                <td className="py-3 px-4">{t('pricing.searayPrice')}</td>
+                <td className="py-3 px-4">{t('pricing.searayPeople')}</td>
+              </tr>
+
+              <tr className="border-b">
+                <td className="py-3 px-4">Limousine</td>
+                <td className="py-3 px-4">1hr</td>
+                <td className="py-3 px-4">{t('pricing.limoPrice')}</td>
+                <td className="py-3 px-4">{t('pricing.limoPeople')}</td>
+              </tr>
+
+              <tr className="border-b">
                 <td className="py-3 px-4">Yamaha VX Deluxe</td>
                 <td className="py-3 px-4">1hr</td>
                 <td className="py-3 px-4">{t('pricing.vxPrice')}</td>

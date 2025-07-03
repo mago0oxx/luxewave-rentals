@@ -25,7 +25,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
       {/* Sidebar drawer */}
       <div
         className={`${isOpen ? 'translate-x-0' : '-translate-x-full'
-          } sm:translate-x-0 transform transition-transform duration-300 fixed sm:static top-0 left-0 h-full bg-white w-64 z-40 shadow-md sm:shadow-none sm:block pt-16 sm:pt-0`}
+          } sm:translate-x-0 transform transition-transform duration-300 fixed sm:static top-10 left-5 h-full bg-white w-64 z-40 shadow-md sm:shadow-none sm:block pt-16 sm:pt-0`}
       >
         <div className="m-10 p-5  space-y-2">
           <button

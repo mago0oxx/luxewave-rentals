@@ -3,12 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 const images = [
-  { src: '/images/jetski1.jpg', alt: 'Jetski 1' },
+  { src: '/images/yacht.jpg', alt: 'Yacht', link: '/reserve-yacht' },
+  { src: '/images/jetski5.jpg', alt: 'Jetski 5', link: '/reserve-jetski' },
+  { src: '/images/limousine.png', alt: 'limosine', link: '/reserve-limo' },
   { src: '/images/jetski6.jpg', alt: 'Jetski 2' },
   { src: '/images/jetski3.jpg', alt: 'Jetski 3' },
   { src: '/images/jetski4.jpg', alt: 'Jetski 4' },
-  { src: '/images/jetski5.jpg', alt: 'Jetski 5' },
-  { src: '/images/yacht.jpg', alt: 'Yacht', link: '/reserve-yacht' }, // esta lleva al formulario del yate
+
+  // esta lleva al formulario del yate
 ];
 
 export default function Gallery() {

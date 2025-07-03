@@ -12,24 +12,28 @@
     "contact": "Contacto"
   },
   "pricing": {
-    "title": "Tarifas de alquiler de Jet Ski",
+    "title": "Tarifas de alquiler ",
     "headers": {
       "model": "Modelo",
       "time": "Tiempo",
       "price": "Precio",
       "people": "Personas"
     },
+    "searayPrice": "$250",
+    "searayPeople": "Hasta 12",
+    "limoPrice": "$120",
+    "limoPeople": "Hasta 10",
     "vxPrice": "$120",
     "vxPeople": "Hasta 2",
     "fxPrice": "$140",
     "fxPeople": "Hasta 3"
   },
   "gallery": {
-    "title": "Nuestra galería de Jet Skis",
+    "title": "Vive una aventura en Miami!",
     "imageAlt": "Imagen de jetski {{number}}"
   },
   "footer": {
-    "description": "Alquiler de Jet Skis en Miami Beach",
+    "description": "Alquiler de Yates , jetski y Servicios de limosina en Miami",
     "linksTitle": "Enlaces",
     "pricing": "Tarifas",
     "gallery": "Galería",
