@@ -8,6 +8,7 @@ export default function Routes() {
     <Router>
       <Switch>
         <Route exact path='/' component={Home} />
+        <AdminRoute exact path="/admin" component={AdminDashboard} />
       </Switch>
     </Router>
   );

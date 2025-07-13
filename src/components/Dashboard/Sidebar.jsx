@@ -13,7 +13,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
     <>
       {/* Botón hamburguesa (solo visible en móvil) */}
       <div className="sm:hidden p-5 bg-white shadow-md fixed top-30 left-0 right-0 z-50 flex items-center justify-between">
-        <span className="font-bold text-lg">Menú</span>
+        <span Link to="/" className="font-bold text-lg">Menú</span>
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-gray-700 text-2xl"

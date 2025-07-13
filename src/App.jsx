@@ -6,22 +6,31 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase/firebase';
 import ProtectedRoute from './components/ProtectedRoute';
 import { GuestRoute } from './components/GuestRoute';
-import SuccessPage from './components/pages/SuccessPage';
-import CancelPage from './components/pages/CancelPage';
+import AdminRoute from './components/AdminRoute';
+
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
 import Hero from './components/Hero';
 import Pricing from './components/Pricing';
 import Gallery from './components/Gallery';
-import ReservationForm from './components/ReservationForm';
-import Footer from './components/Footer';
-import ReserveYacht from './components/ReserveYacht';
 import Login from './components/Login';
 import Register from './components/Register';
-import DashboardLayout from './components/Dashboard/DashboardLayout';
+import ReservationForm from './components/ReservationForm';
 import ReserveJetski from './components/reserve-jetski';
+import ReserveYacht from './components/ReserveYacht';
 import ReserveLimo from './components/ReserveLimo';
+import SuccessPage from './components/pages/SuccessPage';
+import CancelPage from './components/pages/CancelPage';
 
+import DashboardLayout from './components/Dashboard/DashboardLayout';
 
+import AdminLayout from './components/DashboardAdmin/AdminLayout';
+import MetricsPage from './components/DashboardAdmin/Metrics';
+import ReservationsPage from './components/DashboardAdmin/ReservationsAdmin';
+import UsersPage from './components/DashboardAdmin/UsersAdmin';
+import ReportsPage from './components/DashboardAdmin/Reports.jsx';
+import SettingsPage from './components/DashboardAdmin/Settings';
 
 export default function App() {
   const navigate = useNavigate();
@@ -29,7 +38,6 @@ export default function App() {
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
 
-    // ✅ Redirección si ya hay un usuario autenticado
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       const currentPath = window.location.pathname;
       if (user && (currentPath === '/login' || currentPath === '/register')) {
@@ -45,6 +53,7 @@ export default function App() {
       <Navbar />
 
       <Routes>
+        {/* Página principal */}
         <Route
           path="/"
           element={
@@ -56,6 +65,7 @@ export default function App() {
           }
         />
 
+        {/* Auth */}
         <Route
           path="/login"
           element={
@@ -64,8 +74,6 @@ export default function App() {
             </GuestRoute>
           }
         />
-        <Route path="/success" element={<SuccessPage />} />
-        <Route path="/cancel" element={<CancelPage />} />
         <Route
           path="/register"
           element={
@@ -74,9 +82,10 @@ export default function App() {
             </GuestRoute>
           }
         />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/cancel" element={<CancelPage />} />
 
-        <Route path="/reserve" element={<ReservationForm />} />
-
+        {/* Cliente */}
         <Route
           path="/dashboard"
           element={
@@ -85,9 +94,26 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/reserve" element={<ReservationForm />} />
         <Route path="/reserve-jetski" element={<ReserveJetski />} />
         <Route path="/reserve-yacht" element={<ReserveYacht />} />
         <Route path="/reserve-limo" element={<ReserveLimo />} />
+
+        {/* Admin con rutas anidadas */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route path="metrics" element={<MetricsPage />} />
+          <Route path="reservations" element={<ReservationsPage />} />
+          <Route path="users" element={<UsersPage />} />
+          <Route path="reports" element={<ReportsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+        </Route>
       </Routes>
 
       <Footer />
