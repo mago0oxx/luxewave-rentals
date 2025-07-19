@@ -11,12 +11,14 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
 require('dotenv').config();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(functions.config().stripe.secret_key);
+
+
 const cors = require('cors')({ origin: true });
 
 
-const { setGlobalOptions } = require("firebase-functions");
-const { onRequest } = require("firebase-functions/https");
+
+
 const logger = require("firebase-functions/logger");
 
 admin.initializeApp();
@@ -31,47 +33,50 @@ admin.initializeApp();
 // functions should each use functions.runWith({ maxInstances: 10 }) instead.
 // In the v1 API, each function can only serve one request per container, so
 // this will be the maximum concurrent request count.
-setGlobalOptions({ maxInstances: 10 });
 
 
-exports.createStripeCheckout = functions.https.onRequest((req, res) => {
-  cors(req, res, async () => {
 
-    console.log("Body recibido en createStripeCheckout:", req.body);
-    try {
-      const { amount, email, name, date } = req.body;
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        mode: 'payment',
-        customer_email: email,
-        line_items: [
-          {
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: `Reserva: ${name}`,
-              },
-              unit_amount: amount,
-            },
-            quantity: 1,
-          },
-        ],
-
-        success_url: 'https://luxewave-rentals.vercel.app/success',
-        cancel_url: 'https://luxewave-rentals.vercel.app/cancel',
-      });
-
-      res.status(200).json({ url: session.url });
-      res.set('Access-Control-Allow-Origin', '*'); // o el origen de tu frontend
-      res.set('Access-Control-Allow-Methods', 'POST');
+exports.createStripeCheckout = functions
+  .runWith({ memory: '256MB', timeoutSeconds: 60 }) // Opcional pero recomendable
+  .https
+  .onRequest((req, res) => {
+    cors(req, res, async () => {
 
       console.log("Body recibido en createStripeCheckout:", req.body);
-    } catch (error) {
+      try {
+        const { amount, email, name, date } = req.body;
 
-      console.error('Error en createStripeCheckout:', error);
-      res.status(500).json({ error: error.message });
-    }
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          mode: 'payment',
+          customer_email: email,
+          line_items: [
+            {
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: `Reserva: ${name}`,
+                },
+                unit_amount: amount,
+              },
+              quantity: 1,
+            },
+          ],
+
+          success_url: 'https://luxewave-rentals.vercel.app/success',
+          cancel_url: 'https://luxewave-rentals.vercel.app/cancel',
+        });
+
+
+        res.set('Access-Control-Allow-Origin', '*'); // o el origen de tu frontend
+        res.set('Access-Control-Allow-Methods', 'POST');
+        res.status(200).json({ url: session.url });
+        console.log("Body recibido en createStripeCheckout:", req.body);
+      } catch (error) {
+
+        console.error('Error en createStripeCheckout:', error);
+        res.status(500).json({ error: error.message });
+      }
+    });
   });
-});
 

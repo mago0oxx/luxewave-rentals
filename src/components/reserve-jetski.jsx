@@ -26,7 +26,8 @@ export default function ReserveJetski() {
     setError('');
 
     try {
-      const res = await fetch('/create-stripe-checkout', {
+      const res = await fetch('https://us-central1-luxewave-rentals.cloudfunctions.net/createStripeCheckout', {
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
