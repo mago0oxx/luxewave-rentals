@@ -25,7 +25,10 @@ export default function Navbar() {
         if (element) {
           const offsetTop = element.offsetTop;
           const offsetHeight = element.offsetHeight;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          if (
+            scrollPosition >= offsetTop &&
+            scrollPosition < offsetTop + offsetHeight
+          ) {
             setActiveSection(section);
           }
         }
@@ -47,35 +50,46 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        <Link to="/" className="text-2xl font-bold text-blue-600">
-          LuxeWave
+        {/* LOGO */}
+        <Link to="/" className="flex items-center">
+          <img
+            src="/images/luxewave-logo.png"
+            alt="LuxeWave Rentals"
+            className="h-20 w-auto object-contain"
+          />
         </Link>
 
+        {/* MENU MOBILE */}
         <div className="md:hidden">
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
+        {/* LINKS DESKTOP */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
-          {location.pathname === '/' && ['pricing', 'gallery', 'contact'].map(section => (
-            <li key={section}>
-              <a
-                href={`#${section}`}
-                className={`relative hover:text-blue-600 transition ${activeSection === section ? 'text-blue-600 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-blue-600' : ''
-                  }`}
-              >
-                {t(`navbar.${section}`)}
-              </a>
-            </li>
-          ))}
+          {location.pathname === '/' &&
+            ['pricing', 'gallery', 'contact'].map((section) => (
+              <li key={section}>
+                <a
+                  href={`#${section}`}
+                  className={`relative hover:text-blue-600 transition ${activeSection === section
+                    ? 'text-blue-600 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-blue-600'
+                    : ''
+                    }`}
+                >
+                  {t(`navbar.${section}`)}
+                </a>
+              </li>
+            ))}
         </ul>
 
+        {/* BOTONES DERECHA DESKTOP */}
         <div className="hidden md:flex items-center space-x-4">
           <LanguageSwitcher />
           {user ? (
             <>
-              {userData?.role === "admin" && (
+              {userData?.role === 'admin' && (
                 <Link
                   to="/admin"
                   className="border border-blue-600 text-blue-600 font-medium px-3 py-1 rounded hover:bg-blue-50 transition"
@@ -116,11 +130,12 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* MENU MOBILE ABIERTO */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white px-6 pb-4 space-y-3 shadow-md">
           {location.pathname === '/' && (
             <ul className="space-y-2">
-              {['pricing', 'gallery', 'contact'].map(section => (
+              {['pricing', 'gallery', 'contact'].map((section) => (
                 <li key={section}>
                   <a
                     href={`#${section}`}
@@ -136,7 +151,7 @@ export default function Navbar() {
           <LanguageSwitcher />
           {user ? (
             <div className="pt-2 space-y-2">
-              {userData?.role === "admin" && (
+              {userData?.role === 'admin' && (
                 <Link
                   to="/admin"
                   className="block text-blue-600 font-medium border border-blue-500 px-4 py-2 rounded text-center"

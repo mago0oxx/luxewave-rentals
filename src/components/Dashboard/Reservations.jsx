@@ -20,7 +20,7 @@ export default function Reservations() {
         ...doc.data()
       }));
 
-      const yateRef = collection(db, 'reservations', user.uid, 'items');
+      const yateRef = collection(db, 'reservats', user.uid, 'items');
       const yateSnap = await getDocs(yateRef);
       const yateList = yateSnap.docs.map(doc => ({
         id: doc.id,
