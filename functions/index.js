@@ -63,30 +63,31 @@ admin.initializeApp();
 
 // Función invocable (onCall) que crea la sesión de checkout
 exports.createStripeCheckout = functions.https.onCall(async (data, context) => {
-  // Recupera los datos enviados por el cliente
   const { amount, email, name, date } = data;
-
-  // Crea la sesión de checkout de Stripe
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    mode: 'payment',
-    customer_email: email,
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: `Reserva: ${name}`,
+  if (!amount || !email || !name) {
+    throw new functions.https.HttpsError('invalid-argument', 'Faltan parámetros obligatorios.');
+  }
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'payment',
+      customer_email: email,
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: { name: `Reserva: ${name}` },
+            unit_amount: amount,
           },
-          unit_amount: amount,
+          quantity: 1,
         },
-        quantity: 1,
-      },
-    ],
-    success_url: 'https://luxewave-rentals.vercel.app/success',
-    cancel_url: 'https://luxewave-rentals.vercel.app/cancel',
-  });
-
-  // Devuelve la URL al cliente
-  return { url: session.url };
+      ],
+      success_url: 'https://luxewave-rentals.vercel.app/success',
+      cancel_url: 'https://luxewave-rentals.vercel.app/cancel',
+    });
+    return { url: session.url };
+  } catch (err) {
+    console.error('Stripe error:', err.message);
+    throw new functions.https.HttpsError('internal', 'Error al crear la sesión de pago.');
+  }
 });
