@@ -37,7 +37,7 @@ export default function DashboardLayout() {
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Content */}
-      <main className="flex-1 w-full flex justify-center m-20 items-start px-6 sm:px-8 pt-6 pb-10">
+      <main className="flex-1 w-full flex justify-center items-start px-4 sm:px-8 py-6 sm:py-10">
 
         {renderContent()}
 
