@@ -18,7 +18,7 @@ export default function Register() {
     setError('');
 
     if (password !== confirm) {
-      setError(err.message);
+      setError('Las contraseñas no coinciden');
       return;
     }
 
@@ -42,7 +42,7 @@ export default function Register() {
       } else if (err.code === 'auth/weak-password') {
         setError('La contraseña debe tener al menos 6 caracteres');
       } else {
-        setError(err.message);;
+        setError(err.message);
       }
     }
   };
@@ -64,7 +64,7 @@ export default function Register() {
       navigate('/dashboard');
     } catch (err) {
       console.error(err);
-      setErrorsetError(err.message);;
+      setError(err.message);
     }
   };
 
