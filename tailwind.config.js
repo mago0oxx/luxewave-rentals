@@ -13,7 +13,8 @@ module.exports = {
 
 
       fontFamily: {
-        primary: ['Inter', ...fontFamily.sans],
+        primary: ['"Montserrat Alternates"', ...fontFamily.sans],
+        accent: ['"Righteous"', 'cursive'],
       },
       colors: {
         primary: {
