@@ -62,11 +62,13 @@ exports.createStripeCheckout = functions.https.onRequest((req, res) => {
         cancel_url: 'https://luxewave-rentals.vercel.app/cancel',
       });
 
-      res.status(200).json({ url: session.url });
+      // Set CORS headers **before** sending the response
       res.set('Access-Control-Allow-Origin', '*'); // o el origen de tu frontend
       res.set('Access-Control-Allow-Methods', 'POST');
 
-      console.log("Body recibido en createStripeCheckout:", req.body);
+      res.status(200).json({ url: session.url });
+
+      console.log('Body recibido en createStripeCheckout:', req.body);
     } catch (error) {
 
       console.error('Error en createStripeCheckout:', error);
