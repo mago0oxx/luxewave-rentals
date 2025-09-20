@@ -49,7 +49,7 @@ export default function App() {
   }, [navigate]);
 
   return (
-    <div className="w-full font-sans">
+    <div className="w-full font-primary text-gray-900">
       <Navbar />
 
       <Routes>

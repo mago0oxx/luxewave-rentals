@@ -48,8 +48,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-90 backdrop-blur-md shadow-md">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
         {/* LOGO */}
         <Link to="/" className="flex items-center">
           <img
@@ -132,7 +132,7 @@ export default function Navbar() {
 
       {/* MENU MOBILE ABIERTO */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white px-6 pb-4 space-y-3 shadow-md">
+        <div className="md:hidden bg-white bg-opacity-95 backdrop-blur px-4 sm:px-6 pb-4 space-y-3 shadow-md">
           {location.pathname === '/' && (
             <ul className="space-y-2">
               {['pricing', 'gallery', 'contact'].map((section) => (
