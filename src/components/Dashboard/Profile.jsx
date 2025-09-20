@@ -58,42 +58,42 @@ export default function Profile() {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 max-w-xl w-full mx-auto mt-6 sm:mt-0">
-      <h2 className="text-2xl font-bold mb-4 text-center">Perfil de Usuario</h2>
-      <div className="space-y-4">
+    <div className="bg-white shadow-md rounded-xl p-5 sm:p-6 max-w-md sm:max-w-xl w-full mx-auto mt-4 sm:mt-0">
+      <h2 className="text-xl sm:text-2xl font-bold mb-5 text-center">Perfil de Usuario</h2>
+      <div className="space-y-3 sm:space-y-4">
         <div>
-          <label className="block text-sm font-medium">Nombre completo</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700">Nombre completo</label>
           <input
             type="text"
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border border-gray-300 px-3 py-2.5 sm:py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Teléfono</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700">Teléfono</label>
           <input
             type="tel"
             name="phone"
             value={form.phone}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border border-gray-300 px-3 py-2.5 sm:py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Email</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700">Email</label>
           <input
             type="email"
             name="email"
             value={form.email}
             disabled
-            className="w-full bg-gray-100 border px-3 py-2 rounded"
+            className="w-full bg-gray-100 border border-gray-300 px-3 py-2.5 sm:py-3 rounded-lg"
           />
         </div>
         <button
           onClick={handleSave}
-          className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-white px-4 py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
         >
           Guardar cambios
         </button>
