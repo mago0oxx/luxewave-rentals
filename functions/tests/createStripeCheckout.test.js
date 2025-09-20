@@ -6,10 +6,19 @@ const proxyquire = require('proxyquire');
 describe('createStripeCheckout', () => {
   let createSessionStub;
   let myFunctions;
+  let wrappedCreateStripeCheckout;
+
+  after(() => functionsTest.cleanup());
 
   beforeEach(() => {
     // Stub stripe.checkout.sessions.create to resolve with a fake url
     createSessionStub = sinon.stub().resolves({ url: 'https://stripe.test/session' });
+
+    functionsTest.mockConfig({
+      stripe: {
+        secret_key: 'sk_test_key',
+      },
+    });
 
     const stripeStub = sinon.stub().returns({
       checkout: {
@@ -23,31 +32,20 @@ describe('createStripeCheckout', () => {
     myFunctions = proxyquire('../index', {
       stripe: stripeStub,
     });
+
+    wrappedCreateStripeCheckout = functionsTest.wrap(myFunctions.createStripeCheckout);
   });
 
   afterEach(() => {
     sinon.restore();
   });
 
-  it('responds with 200 and checkout url', async () => {
-    const req = {
-      body: { amount: 1000, email: 'test@example.com', name: 'Test User', date: '2024-01-01' },
-      headers: { origin: 'https://test.com' },
-      method: 'POST'
-    };
+  it('responds with checkout url', async () => {
+    const data = { amount: 1000, email: 'test@example.com', name: 'Test User', date: '2024-01-01' };
+    const context = {};
 
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub().returnsThis(),
-      set: sinon.stub().returnsThis(),
-      setHeader: sinon.stub().returnsThis(),
-      getHeader: sinon.stub()
-    };
+    const result = await wrappedCreateStripeCheckout(data, context);
 
-    await myFunctions.createStripeCheckout(req, res);
-
-    expect(res.status.calledWith(200)).to.be.true;
-    expect(res.json.called).to.be.true;
-    expect(res.json.firstCall.args[0]).to.have.property('url');
+    expect(result).to.have.property('url');
   });
 });
